@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
   const limit = parseInt(req.query.limit);
   if (!isNaN(limit) && limit > 0) {
     res.status(200).json(posts.slice(0, limit));
+    return;
   }
   res.status(200).json(posts);
 })
@@ -39,6 +40,7 @@ router.get(`/:id`, (req, res) => {
   // ERROR HANDLE FOR post does not exit: >>>
   if (!post) {
     res.status(404).json({ message: `Post with ID: ${id} not found` });
+    return;
   }
   res.status(200).json(post);
   
