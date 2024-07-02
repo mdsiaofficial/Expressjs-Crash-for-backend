@@ -12,7 +12,7 @@ let posts = [
 ];
 
 // get all posts
-router.get('/api/posts', (req, res) => {
+router.get('/', (req, res) => {
   // console.log(req.query); // query from link
 
   // limit show
@@ -24,7 +24,7 @@ router.get('/api/posts', (req, res) => {
 })
 
 // get a single post
-router.get(`/api/posts/:id`, (req, res) => {
+router.get(`/:id`, (req, res) => {
   // console.log(req.params);
   const id = parseInt(req.params.id);
 
@@ -45,4 +45,6 @@ router.get(`/api/posts/:id`, (req, res) => {
   // res.status(200).json(post2);
 });
 
-export default router;
+// export default router;
+// using common js modul || jodio jani na ki eida
+module.exports = router;
