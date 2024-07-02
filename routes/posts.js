@@ -1,4 +1,5 @@
-const express = require('express');
+// const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 // posts array
@@ -17,9 +18,11 @@ router.get('/', (req, res) => {
 
   // limit show
   const limit = parseInt(req.query.limit);
+
   if (!isNaN(limit) && limit > 0) {
-    res.status(200).json(posts.slice(0, limit));
-    return;
+    return res.status(200).json(posts.slice(0, limit));
+    // return;
+    
   }
   res.status(200).json(posts);
 })
@@ -39,14 +42,26 @@ router.get(`/:id`, (req, res) => {
 
   // ERROR HANDLE FOR post does not exit: >>>
   if (!post) {
-    res.status(404).json({ message: `Post with ID: ${id} not found` });
-    return;
+    return res
+      .status(404)
+      .json({ message: `Post with ID: ${id} not found` });
+    // return;
   }
   res.status(200).json(post);
   
   // res.status(200).json(post2);
 });
 
-// export default router;
+// create a new post
+router.post('/', (req, res) => {
+  // console.log(req.body);
+  const newPost = {
+    id: posts.length + 1,
+    title: req.body.title,
+  }
+  res.status(201).json(posts);
+}); 
+
+export default router;
 // using common js modul || jodio jani na ki eida
-module.exports = router;
+// module.exports = router;
