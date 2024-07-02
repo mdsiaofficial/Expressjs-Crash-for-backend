@@ -12,6 +12,7 @@ let posts = [
   { id: 6, title: "Post 6" },
 ];
 
+
 // get all posts
 router.get('/', (req, res) => {
   // console.log(req.query); // query from link
