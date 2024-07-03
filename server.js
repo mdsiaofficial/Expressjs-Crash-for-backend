@@ -5,6 +5,9 @@ import logger from './middleware/logger.js';
 import path from 'path';
 // const posts = require('./routes/posts');
 import posts from './routes/posts.js';
+import errorHandler from './middleware/error.js';
+import notFound from './middleware/notFound.js';
+import colors from 'colors';
 
 const port = process.env.PORT || 8000;
 
@@ -35,6 +38,18 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use('/api/posts', posts);
+
+// 
+app.use((req, res, next) => {
+  const error = new Error(`Not Found`);
+  error.status = 404;
+  next(error);
+});
+
+
+// error handler
+app.use(errorHandler);
+app.use(notFound);
 
 app.listen(port, () => {
   console.log(`Server is running on localhost:${port}`)
