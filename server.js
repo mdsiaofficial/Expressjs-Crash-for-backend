@@ -3,6 +3,7 @@ import express from 'express';
 import logger from './middleware/logger.js';
 // const path = require('path');
 import path from 'path';
+import { fileURLToPath } from 'url';
 // const posts = require('./routes/posts');
 import posts from './routes/posts.js';
 import errorHandler from './middleware/error.js';
@@ -11,17 +12,23 @@ import colors from 'colors';
 
 const port = process.env.PORT || 8000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// console.log(__dirname);
+// console.log(__filename)
+
 const app = express();
 
 // logger middleware
 app.use(logger);
+
 
 // body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // setup static folder
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app.get('/', (req, res) => {
 //   // res.send('Hi there. How are you? <h1>Hello</h1>');
