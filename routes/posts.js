@@ -1,6 +1,7 @@
 // const express = require('express');
 import express from 'express';
 import colors from 'colors';
+import { createPost, deletePost, getPost, getPosts, updatePost } from '../controllers/postController.js';
 
 const router = express.Router();
 
@@ -13,113 +14,118 @@ let posts = [
   { id: 5, title: "Post 5" },
   { id: 6, title: "Post 6" },
 ];
-
+router.get('/', getPosts);
+router.get('/:id', getPost);
+router.post('/', createPost);
+router.put('/:id', updatePost);
+router.delete('/:id', deletePost);
 
 // get all posts
-router.get('/', (req, res) => {
-  // console.log(req.query); // query from link
+// router.get('/', (req, res) => {
+//   // console.log(req.query); // query from link
 
-  // limit show
-  const limit = parseInt(req.query.limit);
+//   // limit show
+//   const limit = parseInt(req.query.limit);
 
-  if (!isNaN(limit) && limit > 0) {
-    return res.status(200).json(posts.slice(0, limit));
-    // return;
+//   if (!isNaN(limit) && limit > 0) {
+//     return res.status(200).json(posts.slice(0, limit));
+//     // return;
     
-  }
-  res.status(200).json(posts);
-})
+//   }
+//   res.status(200).json(posts);
+// });
 
 // get a single post
-router.get(`/:id`, (req, res, next) => {
-  // console.log(req.params);
-  const id = parseInt(req.params.id);
+// router.get(`/:id`, (req, res, next) => {
+//   // console.log(req.params);
+//   const id = parseInt(req.params.id);
 
-  // way 1 : if the post doesn't exist find() method help most >>>
-  const post = posts.find(post => post.id === id);
-  console.log(post);
+//   // way 1 : if the post doesn't exist find() method help most >>>
+//   const post = posts.find(post => post.id === id);
+//   console.log(post);
 
-  // way 2
-  // const post2 = posts.filter(post => post.id === id);
-  // console.log(post2);
+//   // way 2
+//   // const post2 = posts.filter(post => post.id === id);
+//   // console.log(post2);
 
-  // ERROR HANDLE FOR post does not exit: >>>
-  if (!post) {
-    // custom error
-    const error = new Error(`Post with ID: ${id} not found`);
-    error.status = 404;
-    return next(error);
-    // return res
-    //   .status(404)
-    //   .json({ message: `Post with ID: ${id} not found` });
-    // return;
-  }
-  res.status(200).json(post);
+//   // ERROR HANDLE FOR post does not exit: >>>
+//   if (!post) {
+//     // custom error
+//     const error = new Error(`Post with ID: ${id} not found`);
+//     error.status = 404;
+//     return next(error);
+//     // return res
+//     //   .status(404)
+//     //   .json({ message: `Post with ID: ${id} not found` });
+//     // return;
+//   }
+//   res.status(200).json(post);
   
-  // res.status(200).json(post2);
-});
+//   // res.status(200).json(post2);
+// });
 
 // create a new post
-router.post('/', (req, res, next) => {
-  // console.log(req.body);
-  const newPost = {
-    id: posts.length + 1,
-    title: req.body.title,
-  }
-  if (!newPost.title) {
-    const id = parseInt(req.params.id);
-    // custom error
-    const error = new Error(`Please include a title! for Post with ID: ${id}`);
-    error.status = 400;
-    return next(error);
+// router.post('/', (req, res, next) => {
+//   // console.log(req.body);
+//   const newPost = {
+//     id: posts.length + 1,
+//     title: req.body.title,
+//   }
+//   if (!newPost.title) {
+//     const id = parseInt(req.params.id);
+//     // custom error
+//     const error = new Error(`Please include a title! for Post with ID: ${id}`);
+//     error.status = 400;
+//     return next(error);
 
-    // return res.status(400).json({ message: "Please include a title!" });
-  }
-  posts.push(newPost);
-  res.status(201).json(posts);
-}); 
+//     // return res.status(400).json({ message: "Please include a title!" });
+//   }
+//   posts.push(newPost);
+//   res.status(201).json(posts);
+// });
 
 
 // update post
-router.put(`/:id`, (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const post = posts.find((post) => post.id === id);
-  if (!post) {
+// router.put(`/:id`, (req, res, next) => {
+//   const id = parseInt(req.params.id);
+//   const post = posts.find((post) => post.id === id);
+//   if (!post) {
 
-    const id = parseInt(req.params.id);
-    // custom error
-    const error = new Error(`Post with id ${id} not found.`);
-    error.status = 404;
-    return next(error);
+//     const id = parseInt(req.params.id);
+//     // custom error
+//     const error = new Error(`Post with id ${id} not found.`);
+//     error.status = 404;
+//     return next(error);
 
-    // return res
-    //   .status(404)
-    //   .json({ message: `Post with id ${id} not found.` });
-  }
+//     // return res
+//     //   .status(404)
+//     //   .json({ message: `Post with id ${id} not found.` });
+//   }
 
-  post.title = req.body.title;
-  res.status(200).json(posts);
-});
+//   post.title = req.body.title;
+//   res.status(200).json(posts);
+// });
 
 // delete post
-router.delete(`/:id`, (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const post = posts.find((post) => post.id === id);
-  if (!post) {
 
-    const id = parseInt(req.params.id);
-    // custom error
-    const error = new Error(`Post with id ${id} not found.`);
-    error.status = 404;
-    return next(error);
+// router.delete(`/:id`, (req, res, next) => {
+//   const id = parseInt(req.params.id);
+//   const post = posts.find((post) => post.id === id);
+//   if (!post) {
 
-    // return res
-    //   .status(404)
-    //   .json({ message: `Post with id ${id} not found.` });
-  }
-  posts = posts.filter((post) => post.id !== id);
-  res.status(200).json(posts);
-})
+//     const id = parseInt(req.params.id);
+//     // custom error
+//     const error = new Error(`Post with id ${id} not found.`);
+//     error.status = 404;
+//     return next(error);
+
+//     // return res
+//     //   .status(404)
+//     //   .json({ message: `Post with id ${id} not found.` });
+//   }
+//   posts = posts.filter((post) => post.id !== id);
+//   res.status(200).json(posts);
+// });
 
 export default router;
 // using common js modul || jodio jani na ki eida
