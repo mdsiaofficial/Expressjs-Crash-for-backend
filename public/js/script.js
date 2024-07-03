@@ -3,6 +3,18 @@ const output = document.querySelector(`#output`);
 const btn = document.querySelector(`#get-posts-btn`);
 const form = document.querySelector(`#add-post-form`);
 
+function renderPosts(posts) {
+  try {
+    posts.forEach((post) => {
+      const postEle = document.createElement('div');
+      postEle.textContent = `${post.id}  ________  ${post.title}`;
+      output.appendChild(postEle);
+    });
+  } catch (error) {
+    console.log(`Error rendering posts`, error);
+  }
+}
+
 // get and show posts
 async function showPosts() {
 
@@ -24,13 +36,11 @@ async function showPosts() {
     bar.textContent = `---------------------`;
     output.appendChild(bar);
 
-    posts.forEach((post) => {
-      const postEle = document.createElement('div');
-      postEle.textContent = `${post.id}  ________  ${post.title}`;
-      output.appendChild(postEle);
-    });
+    renderPosts(posts);
+
   } catch (error) {
-    console.log(`Error fetching posts`, error);
+    console.error(`Error fetching posts: ${error.message}`);
+    output.innerHTML = `<div class="error">Failed to load posts. Please try again later.</div>`;
   }
 };
 
@@ -60,7 +70,8 @@ async function addPost(e) {
     output.appendChild(postEle);
     showPosts();
   } catch (error) {
-    console.log('Error adding post', error);
+    console.error(`Error fetching posts: ${error.message}`);
+    output.innerHTML = `<div class="error">Failed to load posts. Please try again later.</div>`;
     
   }
 }
